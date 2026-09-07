@@ -95,12 +95,12 @@
               <h2 class="question-prompt-text" id="playerQuestionText">Loading telemetry...</h2>
             </div>
 
-            <!-- 4 Kahoot-Style Cosmic Option Tiles -->
+            <!-- 4 Space Telemetry Option Cards (Sun, Earth, Moon, Rocket) -->
             <div class="quiz-options-grid" id="playerOptionsGrid">
-              <!-- Option 0: Red Triangle -->
+              <!-- Option 0: Sun ☀️ -->
               <div class="quiz-option-card" data-idx="0" id="optCard0">
                 <div class="option-inner-content">
-                  <span class="option-shape-symbol">▲</span>
+                  <span class="option-shape-symbol">☀️</span>
                   <span class="option-text-val" id="optText0">Option A</span>
                 </div>
                 <div class="live-poll-indicator">
@@ -114,10 +114,10 @@
                 </div>
               </div>
 
-              <!-- Option 1: Blue Diamond -->
+              <!-- Option 1: Earth 🌍 -->
               <div class="quiz-option-card" data-idx="1" id="optCard1">
                 <div class="option-inner-content">
-                  <span class="option-shape-symbol">◆</span>
+                  <span class="option-shape-symbol">🌍</span>
                   <span class="option-text-val" id="optText1">Option B</span>
                 </div>
                 <div class="live-poll-indicator">
@@ -131,10 +131,10 @@
                 </div>
               </div>
 
-              <!-- Option 2: Yellow Circle -->
+              <!-- Option 2: Moon 🌙 -->
               <div class="quiz-option-card" data-idx="2" id="optCard2">
                 <div class="option-inner-content">
-                  <span class="option-shape-symbol">●</span>
+                  <span class="option-shape-symbol">🌙</span>
                   <span class="option-text-val" id="optText2">Option C</span>
                 </div>
                 <div class="live-poll-indicator">
@@ -148,10 +148,10 @@
                 </div>
               </div>
 
-              <!-- Option 3: Green Square -->
+              <!-- Option 3: Rocket 🚀 -->
               <div class="quiz-option-card" data-idx="3" id="optCard3">
                 <div class="option-inner-content">
-                  <span class="option-shape-symbol">■</span>
+                  <span class="option-shape-symbol">🚀</span>
                   <span class="option-text-val" id="optText3">Option D</span>
                 </div>
                 <div class="live-poll-indicator">
@@ -164,12 +164,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- Explanation Card (Shown on Review) -->
-            <div class="explanation-card" id="playerExplanationCard">
-              <span style="font-size: 20px;">💡</span>
-              <span id="playerExplanationText">Cosmic insight explanation</span>
             </div>
           </div>
         </section>
@@ -224,10 +218,10 @@
                 </div>
                 
                 <div class="admin-chart-bars">
-                  <!-- Bar A -->
+                  <!-- Bar A: Sun -->
                   <div class="admin-bar-row">
                     <div class="admin-bar-header">
-                      <span id="adminOptLabel0">▲ A: Option</span>
+                      <span id="adminOptLabel0">☀️ Sun: Option</span>
                       <span id="adminBarVal0">0 votes (0%)</span>
                     </div>
                     <div class="admin-bar-track">
@@ -235,10 +229,10 @@
                     </div>
                   </div>
 
-                  <!-- Bar B -->
+                  <!-- Bar B: Earth -->
                   <div class="admin-bar-row">
                     <div class="admin-bar-header">
-                      <span id="adminOptLabel1">◆ B: Option</span>
+                      <span id="adminOptLabel1">🌍 Earth: Option</span>
                       <span id="adminBarVal1">0 votes (0%)</span>
                     </div>
                     <div class="admin-bar-track">
@@ -246,10 +240,10 @@
                     </div>
                   </div>
 
-                  <!-- Bar C -->
+                  <!-- Bar C: Moon -->
                   <div class="admin-bar-row">
                     <div class="admin-bar-header">
-                      <span id="adminOptLabel2">● C: Option</span>
+                      <span id="adminOptLabel2">🌙 Moon: Option</span>
                       <span id="adminBarVal2">0 votes (0%)</span>
                     </div>
                     <div class="admin-bar-track">
@@ -257,10 +251,10 @@
                     </div>
                   </div>
 
-                  <!-- Bar D -->
+                  <!-- Bar D: Rocket -->
                   <div class="admin-bar-row">
                     <div class="admin-bar-header">
-                      <span id="adminOptLabel3">■ D: Option</span>
+                      <span id="adminOptLabel3">🚀 Rocket: Option</span>
                       <span id="adminBarVal3">0 votes (0%)</span>
                     </div>
                     <div class="admin-bar-track">
@@ -379,6 +373,26 @@
       </div>
 
       <button class="modal-submit-btn" id="btnSubmitAdmin">Access Mission Control</button>
+    </div>
+  </div>
+
+  <!-- ================= POPPING COSMIC FACT DIALOG ================= -->
+  <div class="fact-popup-overlay" id="cosmicFactModal">
+    <div class="fact-popup-card">
+      <div class="fact-header-badge">✨ COSMIC TELEMETRY // MISSION FACT</div>
+      
+      <div class="fact-correct-indicator" id="factCorrectIndicator">
+        <span id="factCorrectEmoji" style="font-size: 26px;">☀️</span>
+        <span id="factCorrectText">Correct Answer: Option</span>
+      </div>
+
+      <div class="fact-description-text" id="factDescriptionText">
+        Fascinating space science explanation...
+      </div>
+
+      <div class="fact-dismiss-hint">
+        ⏳ Telemetry box will auto-close when Flight Director initiates the next question...
+      </div>
     </div>
   </div>
 

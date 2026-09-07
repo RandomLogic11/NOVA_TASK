@@ -201,7 +201,7 @@ body, html {
 
 /* ==========================================================================
    Centered Translucent Dark Blue HUD Container
-   Rounded rectangular shape, center aligned, not touching screen borders
+   Ultra-transparent glass so orbiting planets and Sun are clearly visible behind!
    ========================================================================== */
 .hud-viewport {
   position: fixed;
@@ -213,7 +213,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 40px;
+  padding: 24px 36px;
   pointer-events: none; /* Allows click-through to canvas when no modal is blocking */
 }
 
@@ -221,15 +221,16 @@ body, html {
   pointer-events: auto;
   position: relative;
   width: 100%;
-  max-width: 1100px;
-  height: 84vh;
-  max-height: 820px;
-  background: var(--bg-panel);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--border-cyan);
+  max-width: 1120px;
+  height: 86vh;
+  max-height: 840px;
+  /* Ultra-translucent dark blue to reveal the live revolving planets */
+  background: rgba(4, 10, 26, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 229, 255, 0.35);
   border-radius: var(--radius-lg);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), var(--glow-cyan);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 229, 255, 0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -240,12 +241,12 @@ body, html {
 .hud-panel::before, .hud-panel::after {
   content: '';
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   pointer-events: none;
   border-color: var(--accent-cyan);
   border-style: solid;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 .hud-panel::before {
@@ -262,13 +263,13 @@ body, html {
 
 /* Top status bar inside HUD */
 .hud-header {
-  height: 64px;
+  height: 60px;
   padding: 0 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 229, 255, 0.15);
-  background: rgba(4, 12, 32, 0.4);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  background: rgba(4, 12, 32, 0.65);
 }
 
 .hud-brand {

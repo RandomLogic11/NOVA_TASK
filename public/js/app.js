@@ -61,8 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerScoreBadge = document.getElementById('playerScoreBadge');
   const playerQuestionText = document.getElementById('playerQuestionText');
   const playerOptionsGrid = document.getElementById('playerOptionsGrid');
-  const playerExplanationCard = document.getElementById('playerExplanationCard');
-  const playerExplanationText = document.getElementById('playerExplanationText');
+  const cosmicFactModal = document.getElementById('cosmicFactModal');
+  const factCorrectEmoji = document.getElementById('factCorrectEmoji');
+  const factCorrectText = document.getElementById('factCorrectText');
+  const factDescriptionText = document.getElementById('factDescriptionText');
+
+  if (cosmicFactModal) {
+    cosmicFactModal.addEventListener('click', () => {
+      cosmicFactModal.classList.remove('active');
+    });
+  }
 
   // DOM Elements - Admin Deck
   const adminCadetCount = document.getElementById('adminCadetCount');
@@ -219,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playerQuestionText.textContent = qData.question;
     playerTimerNum.textContent = qData.timeLimit || 20;
     playerTimerWidget.classList.remove('urgent');
-    playerExplanationCard.classList.remove('visible');
+    if (cosmicFactModal) cosmicFactModal.classList.remove('active');
 
     // Populate the 4 option cards
     for (let i = 0; i < 4; i++) {
@@ -289,9 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Reveal correct answer on Participant screen
+  // Reveal correct answer and pop up the cosmic fact modal!
   function handleParticipantReview(reviewData) {
     const correctIdx = reviewData.correctIndex;
+    const spaceEmojis = ['☀️', '🌍', '🌙', '🚀'];
+    const spaceNames = ['Sun', 'Earth', 'Moon', 'Rocket'];
 
     for (let i = 0; i < 4; i++) {
       const card = document.getElementById(`optCard${i}`);
@@ -305,9 +315,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (reviewData.explanation) {
-      playerExplanationText.textContent = reviewData.explanation;
-      playerExplanationCard.classList.add('visible');
+    // Pop up the Cosmic Fact Modal with animation
+    if (cosmicFactModal) {
+      if (factCorrectEmoji) factCorrectEmoji.textContent = spaceEmojis[correctIdx] || '✨';
+      const optVal = (currentQuestion && currentQuestion.options[correctIdx]) || '';
+      if (factCorrectText) {
+        factCorrectText.textContent = `Correct: ${spaceEmojis[correctIdx]} ${spaceNames[correctIdx]} — ${optVal}`;
+      }
+      if (factDescriptionText) {
+        factDescriptionText.textContent = reviewData.explanation || 'Scientific observations logged successfully.';
+      }
+      cosmicFactModal.classList.add('active');
     }
   }
 
@@ -371,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateAdminOptionLabels(options) {
     if (!options) return;
-    const prefixes = ['▲ A', '◆ B', '● C', '■ D'];
+    const prefixes = ['☀️ Sun', '🌍 Earth', '🌙 Moon', '🚀 Rocket'];
     for (let i = 0; i < 4; i++) {
       const lbl = document.getElementById(`adminOptLabel${i}`);
       if (lbl && options[i]) {
@@ -541,6 +559,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Question Started
   socket.on('question_started', ({ question, pollCounts, totalParticipants }) => {
+    // Automatically close any popping cosmic fact modal when next question launches
+    if (cosmicFactModal) {
+      cosmicFactModal.classList.remove('active');
+    }
+
     if (myRole === 'cadet') {
       renderParticipantQuestion(question);
       switchView('gameplay');
