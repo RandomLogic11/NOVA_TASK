@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('DJS NOVA Telemetry Online. Ready for mission.');
   });
 
-  // 3. Connect to Socket.IO Server
-  const socket = io();
+  // 3. Connect to Socket.IO Server (defaults to same origin or custom backend URL)
+  const socket = io(window.BACKEND_URL || undefined);
 
   // Local State
   let myRole = null; // 'cadet' | 'admin'
