@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "question": "What percentage of the entire Solar System's total mass is contained within the Sun?",
+    "options": [
+      "~74.5%",
+      "~88.2%",
+      "~99.86%",
+      "~95.1%"
+    ],
+    "correct": 2,
+    "explanation": "The Sun contains approximately 99.86% of all mass in the Solar System, dominating the gravitational dynamics of all planets.",
+    "timeLimit": 20
+  },
+  {
+    "id": 2,
+    "question": "Which is the nearest major spiral galaxy to our Milky Way galaxy?",
+    "options": [
+      "Triangulum Galaxy (M33)",
+      "Andromeda Galaxy (M31)",
+      "Whirlpool Galaxy (M51)",
+      "Sombrero Galaxy (M104)"
+    ],
+    "correct": 1,
+    "explanation": "The Andromeda Galaxy (M31) lies roughly 2.5 million light-years away and is our closest major galactic neighbor.",
+    "timeLimit": 20
+  },
+  {
+    "id": 3,
+    "question": "What is the largest known shield volcano in the Solar System, located on Mars?",
+    "options": [
+      "Mauna Kea",
+      "Olympus Mons",
+      "Elysium Mons",
+      "Tharsis Tholus"
+    ],
+    "correct": 1,
+    "explanation": "Olympus Mons stands over 21 km (13 miles) high—nearly three times the height of Mount Everest on Earth!",
+    "timeLimit": 20
+  },
+  {
+    "id": 4,
+    "question": "Approximately what is the speed of light in a cosmic vacuum?",
+    "options": [
+      "~150,000 km/s",
+      "~299,792 km/s",
+      "~520,000 km/s",
+      "~1,080,000 km/s"
+    ],
+    "correct": 1,
+    "explanation": "The speed of light in vacuum is exactly 299,792,458 meters per second (~300,000 km/s).",
+    "timeLimit": 20
+  },
+  {
+    "id": 5,
+    "question": "Which planet in our Solar System has the shortest day (fastest rotation period)?",
+    "options": [
+      "Mercury",
+      "Jupiter (~9.9 hours)",
+      "Saturn",
+      "Neptune"
+    ],
+    "correct": 1,
+    "explanation": "Despite being the largest planet, Jupiter rotates on its axis once every 9 hours and 55 minutes!",
+    "timeLimit": 20
+  },
+  {
+    "id": 6,
+    "question": "Which spacecraft was the first human-made object to cross into interstellar space?",
+    "options": [
+      "Voyager 1",
+      "Pioneer 10",
+      "New Horizons",
+      "Cassini-Huygens"
+    ],
+    "correct": 0,
+    "explanation": "Launched in 1977, Voyager 1 officially crossed the heliopause into interstellar space in August 2012.",
+    "timeLimit": 20
+  },
+  {
+    "id": 7,
+    "question": "What gas makes up over 96% of the dense, runaway greenhouse atmosphere of Venus?",
+    "options": [
+      "Nitrogen (N₂)",
+      "Methane (CH₄)",
+      "Carbon Dioxide (CO₂)",
+      "Sulfur Dioxide (SO₂)"
+    ],
+    "correct": 2,
+    "explanation": "Venus has a thick atmosphere of 96.5% carbon dioxide, producing surface temperatures exceeding 465°C (870°F).",
+    "timeLimit": 20
+  },
+  {
+    "id": 8,
+    "question": "What is the boundary around a black hole beyond which nothing, not even light, can escape?",
+    "options": [
+      "Accretion Disk",
+      "Event Horizon",
+      "Photon Sphere",
+      "Cosmic Singularity"
+    ],
+    "correct": 1,
+    "explanation": "The Event Horizon is the theoretical boundary around a black hole where the escape velocity equals or exceeds the speed of light.",
+    "timeLimit": 20
+  },
+  {
+    "id": 9,
+    "question": "What is the name of Pluto's largest moon, forming a celestial binary system with it?",
+    "options": [
+      "Nix",
+      "Hydra",
+      "Charon",
+      "Kerberos"
+    ],
+    "correct": 2,
+    "explanation": "Charon is so massive compared to Pluto that their center of mass (barycenter) actually lies in empty space between them.",
+    "timeLimit": 20
+  },
+  {
+    "id": 10,
+    "question": "Based on Cosmic Microwave Background measurements, what is the estimated age of the Universe?",
+    "options": [
+      "~4.5 Billion Years",
+      "~9.2 Billion Years",
+      "~13.8 Billion Years",
+      "~22.4 Billion Years"
+    ],
+    "correct": 2,
+    "explanation": "Data from the WMAP and Planck space observatories determine the age of the observable universe to be roughly 13.787 ± 0.020 billion years.",
+    "timeLimit": 20
+  }
+]

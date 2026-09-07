@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DJS NOVA | Real-Time Space Quiz Competition</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+</head>
+<body>
+
+  <!-- Fullscreen Live Solar System Canvas (Sun at Left, 9 Planets including Pluto revolving) -->
+  <canvas id="solarCanvas"></canvas>
+
+  <!-- DJS NOVA Loading Sequence with Rotating Star Above 'A' -->
+  <div id="loaderScreen"></div>
+
+  <!-- Centered Translucent Dark Blue HUD Container -->
+  <div class="hud-viewport" id="hudViewport">
+    <div class="hud-panel" id="mainPanel">
+      
+      <!-- Top HUD Header -->
+      <header class="hud-header">
+        <div class="hud-brand">
+          <div class="brand-dot"></div>
+          <div class="brand-title">DJS <span>NOVA</span> // MISSION QUIZ</div>
+        </div>
+        <div class="hud-room-badge" id="hudRoomBadge">CODE: <strong>NOVA</strong></div>
+      </header>
+
+      <!-- HUD Body Views -->
+      <main class="hud-body">
+
+        <!-- ================= VIEW 1: HOME ================= -->
+        <section class="hud-view active" id="viewHome">
+          <div class="home-hero-wrap">
+            <h1 class="home-cosmic-title">INTERPLANETARY QUIZ</h1>
+            <p class="home-cosmic-subtitle">
+              Welcome to the DJS NOVA Real-Time Space Competition. Test your knowledge of cosmic mechanics, astrophysics, and solar exploration live!
+            </p>
+            
+            <div class="home-button-cluster">
+              <!-- Take Quiz Button -->
+              <button class="portal-btn" id="btnOpenJoinModal">
+                <span class="portal-btn-icon">🚀</span>
+                <span class="portal-btn-title">Take Quiz</span>
+                <span class="portal-btn-desc">Join the live session as a participant cadet</span>
+              </button>
+
+              <!-- Monitor Quiz Button -->
+              <button class="portal-btn monitor" id="btnOpenAdminModal">
+                <span class="portal-btn-icon">📡</span>
+                <span class="portal-btn-title">Monitor Quiz</span>
+                <span class="portal-btn-desc">Host and control questions from Mission Deck</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 2: PARTICIPANT WAITING ROOM ================= -->
+        <section class="hud-view" id="viewWaiting">
+          <div class="waiting-room-wrap">
+            <div class="radar-sweep-box">
+              <span class="radar-icon">🛰️</span>
+            </div>
+            <h2 class="waiting-title">MISSION WAITING BAY</h2>
+            <p class="waiting-subtitle" id="waitingStatusText">
+              Connected as <strong id="cadetCallsignDisplay" style="color: var(--accent-cyan);">Cadet</strong>. Waiting for Mission Controller to launch the quiz...
+            </p>
+
+            <div class="waiting-badge-container" id="waitingCadetsList">
+              <!-- Dynamically populated cadet chips -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 3: PARTICIPANT GAMEPLAY ================= -->
+        <section class="hud-view" id="viewGameplay">
+          <div class="quiz-gameplay-wrap">
+            <!-- Header Bar -->
+            <div class="gameplay-meta-bar">
+              <div class="question-counter-badge" id="playerQCounter">QUESTION 1 / 10</div>
+              
+              <div class="timer-pill-widget" id="playerTimerWidget">
+                <span>⏱️</span>
+                <span class="timer-num" id="playerTimerNum">20</span>
+                <span>s</span>
+              </div>
+
+              <div class="score-hud-badge" id="playerScoreBadge">SCORE: 0</div>
+            </div>
+
+            <!-- Question Prompt Card -->
+            <div class="question-prompt-card">
+              <h2 class="question-prompt-text" id="playerQuestionText">Loading telemetry...</h2>
+            </div>
+
+            <!-- 4 Kahoot-Style Cosmic Option Tiles -->
+            <div class="quiz-options-grid" id="playerOptionsGrid">
+              <!-- Option 0: Red Triangle -->
+              <div class="quiz-option-card" data-idx="0" id="optCard0">
+                <div class="option-inner-content">
+                  <span class="option-shape-symbol">▲</span>
+                  <span class="option-text-val" id="optText0">Option A</span>
+                </div>
+                <div class="live-poll-indicator">
+                  <div class="poll-track-bar">
+                    <div class="poll-fill-bar" id="pollBar0"></div>
+                  </div>
+                  <div class="poll-stats-row">
+                    <span id="pollVotes0">0 votes</span>
+                    <span id="pollPct0">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Option 1: Blue Diamond -->
+              <div class="quiz-option-card" data-idx="1" id="optCard1">
+                <div class="option-inner-content">
+                  <span class="option-shape-symbol">◆</span>
+                  <span class="option-text-val" id="optText1">Option B</span>
+                </div>
+                <div class="live-poll-indicator">
+                  <div class="poll-track-bar">
+                    <div class="poll-fill-bar" id="pollBar1"></div>
+                  </div>
+                  <div class="poll-stats-row">
+                    <span id="pollVotes1">0 votes</span>
+                    <span id="pollPct1">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Option 2: Yellow Circle -->
+              <div class="quiz-option-card" data-idx="2" id="optCard2">
+                <div class="option-inner-content">
+                  <span class="option-shape-symbol">●</span>
+                  <span class="option-text-val" id="optText2">Option C</span>
+                </div>
+                <div class="live-poll-indicator">
+                  <div class="poll-track-bar">
+                    <div class="poll-fill-bar" id="pollBar2"></div>
+                  </div>
+                  <div class="poll-stats-row">
+                    <span id="pollVotes2">0 votes</span>
+                    <span id="pollPct2">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Option 3: Green Square -->
+              <div class="quiz-option-card" data-idx="3" id="optCard3">
+                <div class="option-inner-content">
+                  <span class="option-shape-symbol">■</span>
+                  <span class="option-text-val" id="optText3">Option D</span>
+                </div>
+                <div class="live-poll-indicator">
+                  <div class="poll-track-bar">
+                    <div class="poll-fill-bar" id="pollBar3"></div>
+                  </div>
+                  <div class="poll-stats-row">
+                    <span id="pollVotes3">0 votes</span>
+                    <span id="pollPct3">0%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explanation Card (Shown on Review) -->
+            <div class="explanation-card" id="playerExplanationCard">
+              <span style="font-size: 20px;">💡</span>
+              <span id="playerExplanationText">Cosmic insight explanation</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 4: ADMIN MISSION CONTROL ================= -->
+        <section class="hud-view" id="viewAdmin">
+          <div class="admin-deck-wrap">
+            
+            <!-- Admin Top Stats & Actions Toolbar -->
+            <div class="admin-toolbar">
+              <div class="admin-stats-summary">
+                <div class="admin-stat-item">
+                  <span class="admin-stat-label">CADETS</span>
+                  <span class="admin-stat-val" id="adminCadetCount">0</span>
+                </div>
+                <div class="admin-stat-item">
+                  <span class="admin-stat-label">QUESTION</span>
+                  <span class="admin-stat-val" id="adminQIndex">Lobby</span>
+                </div>
+                <div class="admin-stat-item">
+                  <span class="admin-stat-label">VOTES RECORDED</span>
+                  <span class="admin-stat-val" id="adminVotesRecorded">0 / 0</span>
+                </div>
+                <div class="admin-stat-item">
+                  <span class="admin-stat-label">TIMER</span>
+                  <span class="admin-stat-val" id="adminTimerDisplay">--</span>
+                </div>
+              </div>
+
+              <!-- Admin Action Buttons -->
+              <div class="admin-actions">
+                <button class="admin-btn launch" id="btnAdminStartQuiz">🚀 Start Quiz</button>
+                <button class="admin-btn reveal" id="btnAdminRevealAnswer" style="display: none;">👁️ Reveal Answer</button>
+                <button class="admin-btn next" id="btnAdminNextQuestion" style="display: none;">⏩ Next Question</button>
+                <button class="admin-btn end" id="btnAdminEndQuiz" style="display: none;">🏁 End Quiz</button>
+                <button class="admin-btn reveal" id="btnAdminResetQuiz" style="display: none;">🔄 Reset Lobby</button>
+              </div>
+            </div>
+
+            <!-- Current Question Preview Banner for Admin -->
+            <div class="question-prompt-card" style="padding: 16px 20px;">
+              <h3 class="question-prompt-text" id="adminCurrentQTitle" style="font-size: 18px;">Waiting to start quiz session...</h3>
+            </div>
+
+            <!-- Admin Grid: Live Poll Bar Chart + Participant Roster -->
+            <div class="admin-grid-deck">
+              <!-- Card 1: Real-Time Poll Chart -->
+              <div class="admin-card">
+                <div class="admin-card-title">
+                  <span>LIVE POLL DISTRIBUTION</span>
+                  <span id="adminTotalVotesPct">0% Answered</span>
+                </div>
+                
+                <div class="admin-chart-bars">
+                  <!-- Bar A -->
+                  <div class="admin-bar-row">
+                    <div class="admin-bar-header">
+                      <span id="adminOptLabel0">▲ A: Option</span>
+                      <span id="adminBarVal0">0 votes (0%)</span>
+                    </div>
+                    <div class="admin-bar-track">
+                      <div class="admin-bar-fill bar-0" id="adminBarFill0"></div>
+                    </div>
+                  </div>
+
+                  <!-- Bar B -->
+                  <div class="admin-bar-row">
+                    <div class="admin-bar-header">
+                      <span id="adminOptLabel1">◆ B: Option</span>
+                      <span id="adminBarVal1">0 votes (0%)</span>
+                    </div>
+                    <div class="admin-bar-track">
+                      <div class="admin-bar-fill bar-1" id="adminBarFill1"></div>
+                    </div>
+                  </div>
+
+                  <!-- Bar C -->
+                  <div class="admin-bar-row">
+                    <div class="admin-bar-header">
+                      <span id="adminOptLabel2">● C: Option</span>
+                      <span id="adminBarVal2">0 votes (0%)</span>
+                    </div>
+                    <div class="admin-bar-track">
+                      <div class="admin-bar-fill bar-2" id="adminBarFill2"></div>
+                    </div>
+                  </div>
+
+                  <!-- Bar D -->
+                  <div class="admin-bar-row">
+                    <div class="admin-bar-header">
+                      <span id="adminOptLabel3">■ D: Option</span>
+                      <span id="adminBarVal3">0 votes (0%)</span>
+                    </div>
+                    <div class="admin-bar-track">
+                      <div class="admin-bar-fill bar-3" id="adminBarFill3"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: Connected Cadets Roster -->
+              <div class="admin-card">
+                <div class="admin-card-title">
+                  <span>CONNECTED CADETS</span>
+                  <span id="adminRosterHeaderCount">0 Cadets</span>
+                </div>
+                <div class="admin-roster-list" id="adminRosterContainer">
+                  <!-- Dynamically populated cadet status rows -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ================= VIEW 5: LEADERBOARD & PODIUM ================= -->
+        <section class="hud-view" id="viewLeaderboard">
+          <div class="podium-screen-wrap">
+            <h2 class="podium-hero-title">MISSION LEADERBOARD</h2>
+            
+            <!-- 3-Place Cosmic Podium -->
+            <div class="podium-cluster">
+              <!-- 2nd Place -->
+              <div class="podium-step second" id="podium2nd">
+                <div class="podium-cadet-name" id="podiumName2">--</div>
+                <div class="podium-cadet-score" id="podiumScore2">-- pts</div>
+                <div class="podium-pedestal">2</div>
+              </div>
+
+              <!-- 1st Place -->
+              <div class="podium-step first" id="podium1st">
+                <div style="font-size: 24px; margin-bottom: 2px;">👑</div>
+                <div class="podium-cadet-name" id="podiumName1">--</div>
+                <div class="podium-cadet-score" id="podiumScore1">-- pts</div>
+                <div class="podium-pedestal">1</div>
+              </div>
+
+              <!-- 3rd Place -->
+              <div class="podium-step third" id="podium3rd">
+                <div class="podium-cadet-name" id="podiumName3">--</div>
+                <div class="podium-cadet-score" id="podiumScore3">-- pts</div>
+                <div class="podium-pedestal">3</div>
+              </div>
+            </div>
+
+            <!-- Full Leaderboard Table -->
+            <div class="full-leaderboard-card">
+              <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-cyan); margin-bottom: 6px;">
+                COMPLETE FLIGHT TELEMETRY
+              </div>
+              <div id="leaderboardListContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Dynamically populated rows -->
+              </div>
+            </div>
+
+            <button class="admin-btn launch" id="btnLeaderboardReturn" style="margin-top: 10px;">
+              🌌 Return to Solar System
+            </button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: PARTICIPANT JOIN ================= -->
+  <div class="modal-overlay" id="joinQuizModal">
+    <div class="modal-card">
+      <button class="modal-close" id="btnCloseJoinModal">✕</button>
+      <h3 class="modal-title">Take a Quiz</h3>
+      <p class="modal-desc">Enter the Mission Access Code and choose your astronaut callsign to join the live quiz.</p>
+
+      <div class="modal-input-group">
+        <label class="modal-label" for="inputQuizCode">QUIZ ACCESS CODE</label>
+        <input class="modal-input" id="inputQuizCode" type="text" placeholder="Enter code (e.g. NOVA)" autocomplete="off" />
+      </div>
+
+      <div class="modal-input-group">
+        <label class="modal-label" for="inputCadetName">ASTRONAUT CALLSIGN</label>
+        <input class="modal-input" id="inputCadetName" type="text" placeholder="Your name / callsign" autocomplete="off" />
+      </div>
+
+      <div class="modal-error" id="joinErrorMsg">
+        <span>⚠️</span>
+        <span id="joinErrorText">No such quiz exists</span>
+      </div>
+
+      <button class="modal-submit-btn" id="btnSubmitJoin">Launch Mission</button>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: ADMIN PASSWORD ================= -->
+  <div class="modal-overlay" id="adminAuthModal">
+    <div class="modal-card">
+      <button class="modal-close" id="btnCloseAdminModal">✕</button>
+      <h3 class="modal-title">Mission Control Deck</h3>
+      <p class="modal-desc">Enter the authorized Flight Director Passkey to monitor and control the quiz.</p>
+
+      <div class="modal-input-group">
+        <label class="modal-label" for="inputAdminPass">FLIGHT DIRECTOR PASSKEY</label>
+        <input class="modal-input" id="inputAdminPass" type="password" placeholder="Passkey (DNOVA)" autocomplete="off" />
+      </div>
+
+      <div class="modal-error" id="adminErrorMsg">
+        <span>⚠️</span>
+        <span id="adminErrorText">Invalid Admin Passkey</span>
+      </div>
+
+      <button class="modal-submit-btn" id="btnSubmitAdmin">Access Mission Control</button>
+    </div>
+  </div>
+
+  <!-- Scripts: Socket.io, Solar System Engine, Logo Loader, Main App -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/solar-system.js"></script>
+  <script src="js/logo-loader.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
